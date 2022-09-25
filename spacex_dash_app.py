@@ -6,8 +6,6 @@ import dash_core_components as dcc
 from dash.dependencies import Input, Output
 import plotly.express as px
 
-import pdb
-
 # Read the airline data into pandas dataframe
 spacex_df = pd.read_csv("spacex_launch_dash.csv")
 max_payload = spacex_df['Payload Mass (kg)'].max()
@@ -18,7 +16,7 @@ app = dash.Dash(__name__)
 
 ##site_opt = [{'label': 'All Sites', 'value': 'ALL'}]
 ##site_opt.append([ {'label': i, 'value': i } for i in pd.unique(spacex_df['Launch Site']) ])
-     
+
 # Create an app layout
 app.layout = html.Div(children=[html.H1('SpaceX Launch Records Dashboard',
                                         style={'textAlign': 'center', 'color': '#503D36',
@@ -26,9 +24,9 @@ app.layout = html.Div(children=[html.H1('SpaceX Launch Records Dashboard',
                                 # TASK 1: Add a dropdown list to enable Launch Site selection
                                 # The default select value is for ALL sites
                                 # dcc.Dropdown(id='site-dropdown',...)
-                           dcc.Dropdown(id='site-dropdown',
-                                options=[
-                                    {'label': 'All Sites', 'value': 'ALL'}, 
+                                dcc.Dropdown(id='site-dropdown',
+                                    options=[
+                                    {'label': 'All Sites', 'value': 'ALL'},
                                     {'label': 'CCAFS LC-40', 'value': 'CCAFS LC-40'},
                                     {'label': 'VAFB SLC-4E', 'value': 'VAFB SLC-4E'},
                                     {'label': 'KSC LC-39A', 'value': 'KSC LC-39A'},
@@ -62,20 +60,22 @@ app.layout = html.Div(children=[html.H1('SpaceX Launch Records Dashboard',
 def get_pie_chart(entered_site):
     filtered_df = spacex_df
     if entered_site == 'ALL':
-        fig = px.pie(filtered_df, values='class', 
-        names='pie chart names', 
-        title='title')
-        return fig
+        fig = px.pie(filtered_df, values='class',
+        names='Launch Site',
+        title='Launch Site Success Rates (All Sites)')
+        return(fig)
     else:
         # return the outcomes piechart for a selected site
-        pass
-
-
+        site_filtered_df=filtered_df[filtered_df['Launch Site']== entered_site]
+        count_df=site_filtered_df.groupby(['Launch Site','class']).size().reset_index(name='count')
+        fig=px.pie(count_df,values='count',names='class',title="Total Success Launches (%s)" % entered_site)
+        return(fig)
 
 # TASK 4:
-# Add a callback function for `site-dropdown` and `payload-slider` as inputs, `success-payload-scatter-chart` as output
+# Add a callback function for `site-dropdown` and `payload-slider` as inputs, `success-payload-scatter-chart` as
+output
 
 
 # Run the app
-#if __name__ == '__main__':
-#    app.run_server()
+if __name__ == '__main__':
+    app.run_server()
