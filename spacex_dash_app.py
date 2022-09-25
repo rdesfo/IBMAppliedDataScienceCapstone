@@ -45,8 +45,14 @@ app.layout = html.Div(children=[html.H1('SpaceX Launch Records Dashboard',
 
                                 html.P("Payload range (Kg):"),
                                 # TASK 3: Add a slider to select payload range
-                                #dcc.RangeSlider(id='payload-slider',...)
-
+                                dcc.RangeSlider(id='payload-slider',
+                                                min=0, max=10000, step=1000,
+                                                marks={0: '0',
+                                                       2500:'2500',
+                                                       5000:'5000',
+                                                       7500:'7500',
+                                                       10000:'10000'},
+                                                value=[min_payload, max_payload]),
                                 # TASK 4: Add a scatter chart to show the correlation between payload and launch success
                                 html.Div(dcc.Graph(id='success-payload-scatter-chart')),
                                 ])
@@ -73,8 +79,23 @@ def get_pie_chart(entered_site):
 
 # TASK 4:
 # Add a callback function for `site-dropdown` and `payload-slider` as inputs, `success-payload-scatter-chart` as
-output
-
+@app.callback(Output(component_id='success-payload-scatter-chart', component_property='figure'),
+              [Input(component_id='site-dropdown', component_property='value'),
+               Input(component_id='payload-slider', component_property='value')])
+def get_scatter_chart(entered_site, entered_payload):
+    #filtered_df = spacex_df[(spacex_df['Payload Mass (kg)']>entered_payload[0])&(spacex_df['Payload Mass (kg)']<entered_payload[1])]
+    filtered_df = spacex_df[spacex_df['Payload Mass (kg)'].between(entered_payload[0],entered_payload[1])]
+    if entered_site == 'ALL':
+        fig = px.scatter(filtered_df, x='Payload Mass (kg)', y='class',
+                         color='Booster Version Category',
+                         title='Payload Mass vs Launch Outcome (All Sites)')
+        #return(fig)
+    else:
+        site_filtered_df=filtered_df[filtered_df['Launch Site'] == entered_site]
+        fig=px.scatter(site_filtered_df, x='Payload Mass (kg)', y='class',
+                         color='Booster Version Category',
+                         title='Payload Mass vs Launch Outcome (%s)' % entered_site)
+    return(fig)
 
 # Run the app
 if __name__ == '__main__':
