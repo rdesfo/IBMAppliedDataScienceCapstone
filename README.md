@@ -30,4 +30,4 @@ be run to view the maps.  This can be accomplished by downloading and running ma
 
 
 [capstone]: https://www.coursera.org/learn/applied-data-science-capstone
-[[nbviewer]: https://nbviewer.org/github/rdesfo/IBMAppliedDataScienceCapstone/blob/main/lab_jupyter_launch_site_location.ipynb
+[nbviewer]: https://nbviewer.org/github/rdesfo/IBMAppliedDataScienceCapstone/blob/main/lab_jupyter_launch_site_location.ipynb
