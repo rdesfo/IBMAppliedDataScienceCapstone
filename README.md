@@ -28,6 +28,12 @@ It appears that folium interactive maps don't get saved as images.  This require
 be run to view the maps.  This can be accomplished by downloading and running manually or by using
 [nbviewer][nbviewer]
 
+### Analysis with correct template
+
+After submitting my first presentation it was agonizingly apparent that I had used the wrong template
+to submit my capstone project.  That abomination has now been cast to the 'wrong_powerpoint_template'
+folder and the [SpaceX_Landing_Analysis_now_with_correct_template.pdf](https://github.com/rdesfo/IBMAppliedDataScienceCapstone/blob/main/SpaceX_Landing_Analysis_now_with_correct_template.pdf) now takes it's place in the root folder.
+
 
 [capstone]: https://www.coursera.org/learn/applied-data-science-capstone
 [nbviewer]: https://nbviewer.org/github/rdesfo/IBMAppliedDataScienceCapstone/blob/main/lab_jupyter_launch_site_location.ipynb
